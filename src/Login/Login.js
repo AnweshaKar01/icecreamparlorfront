@@ -19,13 +19,13 @@ const Login = () => {
         backgroundImage: `url(${backImage})`,
         backgroundSize: "clip",
         backgroundRepeat: "no-repeat",
-        padding: 2.5,
+        padding: 2.7,
       }}
     >
       <Grid container xs={12}>
         <Card
-          sx={{ minWidth: 600, marginLeft: 42, marginTop: 20, maxWidth: 700 }}
-          elevation={3}
+          sx={{ minWidth: 600, marginLeft: 42, marginTop: 20 }}
+          elevation={10}
         >
           <Box
             component="form"
@@ -38,7 +38,10 @@ const Login = () => {
             noValidate
             autoComplete="off"
           >
-            <CardHeader title="Enter Your Login Credentials" />
+            <CardHeader
+              title="Enter Your Login Credentials"
+              sx={{ fontSize: "20" }}
+            />
 
             <CardContent>
               <TextField
