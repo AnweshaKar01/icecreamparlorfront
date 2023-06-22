@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ShoppingCartCheckoutTwoToneIcon from "@mui/icons-material/ShoppingCartCheckoutTwoTone";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import Button from "@mui/material/Button";
 import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
@@ -17,31 +18,33 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-
+import axios from "axios";
 function NavBar(props) {
   const loginPage = useNavigate();
+  const [isLogggedIn, setIsLoggedIn] = useState(false);
   const Login = () => {
     loginPage("/login");
   };
+  const Logout = async () => {
+    const url = `http://localhost:5000/users/logout/${localStorage.getItem(
+      "userId"
+    )}`;
+    const request = await axios.delete(url);
+    if (request.status == 200) {
+      localStorage.clear();
+      setIsLoggedIn(false);
+    }
+  };
+  const cartPage = useNavigate();
+  const Cart = () => {
+    cartPage("/cart");
+  };
+  React.useEffect(() => {
+    if (localStorage.getItem("userId") && localStorage.getItem("cartId")) {
+      setIsLoggedIn(true);
+    }
+  });
   const drawerWidth = 240;
-  // const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  //   ({ theme, open }) => ({
-  //     flexGrow: 1,
-  //     padding: theme.spacing(3),
-  //     transition: theme.transitions.create('margin', {
-  //       easing: theme.transitions.easing.sharp,
-  //       duration: theme.transitions.duration.leavingScreen,
-  //     }),
-  //     marginLeft: `-${drawerWidth}px`,
-  //     ...(open && {
-  //       transition: theme.transitions.create('margin', {
-  //         easing: theme.transitions.easing.easeOut,
-  //         duration: theme.transitions.duration.enteringScreen,
-  //       }),
-  //       marginLeft: 0,
-  //     }),
-  //   }),
-  // );
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -64,7 +67,7 @@ function NavBar(props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav">
+      <AppBar component="nav" position="fixed">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -103,8 +106,14 @@ function NavBar(props) {
                 { item: "Home", route: "/" },
                 { item: "About", route: "/about" },
                 { item: "Contact", route: "/contact" },
+                { item: "Cart", route: "/cart" },
+                { item: "Bill", route: "/bill" },
               ].map((text, index) => (
-                <Link to={text.route} style={{ textDecoration: "none" }}>
+                <Link
+                  key={index}
+                  to={text.route}
+                  style={{ textDecoration: "none" }}
+                >
                   <ListItem key={text} disablePadding>
                     <ListItemButton>
                       <ListItemText primary={text.item} />
@@ -118,30 +127,45 @@ function NavBar(props) {
           <Typography
             variant="h4"
             component="div"
-            sx={{ flexGrow: 1, fontStyle: "italic", fontSizeAdjust: "inherit" }}
+            sx={{
+              flexGrow: 1,
+              fontStyle: "italic",
+              fontSizeAdjust: "inherit",
+              position: "sticky",
+            }}
             color="azure"
           >
             FlavorEats
           </Typography>
           <Box>
-            <IconButton>
+            <IconButton onClick={() => Cart()}>
               <ShoppingCartCheckoutTwoToneIcon fontSize="large" color="white" />
             </IconButton>
           </Box>
-          {/* <Fab variant="extended" size="small" color="primary" > */}
+
           <Box>
-            {" "}
-            <Button
-              onClick={() => Login()}
-              variant="filled"
-              startIcon={<LoginIcon />}
-              color="#000000"
-              sx={{ backgroundColor: "#ffffff" }}
-            >
-              Login
-            </Button>
+            {isLogggedIn ? (
+              <Button
+                onClick={() => Logout()}
+                variant="filled"
+                startIcon={<LogoutIcon />}
+                color="#000000"
+                sx={{ backgroundColor: "#ffffff" }}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                onClick={() => Login()}
+                variant="filled"
+                startIcon={<LoginIcon />}
+                color="#000000"
+                sx={{ backgroundColor: "#ffffff" }}
+              >
+                Login
+              </Button>
+            )}
           </Box>
-          {/* </Fab> */}
         </Toolbar>
       </AppBar>
       <Box component="main" sx={{ pt: 3, pl: 1, pr: 1, flexGrow: 1 }}>

@@ -9,6 +9,10 @@ import theme from "./Assets/Theme/Themes";
 import Home from "./Home/Home";
 import Login from "./Login/Login";
 import SignUp from "./Login/SignUp";
+import About from "./Components/About";
+import Contact from "./Components/Contact";
+import Cart from "./Cart/Cart";
+import Bill from './Cart/Bill';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,11 +29,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/about",
-    element: <Home />,
+    element: <About />,
   },
   {
     path: "/contact",
-    element: <Home />,
+    element: <Contact />,
+  },
+  {
+    path: "/cart",
+    element: <Cart />,
+  },
+  {
+    path: "/bill",
+    element: <Bill/>,
   },
 ]);
 function App() {

@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,31 +10,74 @@ import {
   IconButton,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import backImage from "../Assets/Images/SignUpImage.jpg";
+import axios from "axios";
+import { IcecreamContext } from "../ContextApi/Context";
 const SignUp = () => {
-  const loginPage = useNavigate();
-  const Login = () => {
-    loginPage("/login");
+  const navigate = useNavigate();
+  const { userId, setUserId, cartId, setCartId } = useContext(IcecreamContext);
+  const [newUser, setNewUser] = useState({
+    userName: "",
+    email: "",
+    password: "",
+  });
+
+  const signpUser = async () => {
+    if (
+      newUser.name === "" ||
+      newUser.email === "" ||
+      newUser.password === ""
+    ) {
+      window.alert("Please fill all fields properly");
+      return;
+    }
+    const baseUrl = "http://localhost:5000/";
+    const newUserResponse = await axios.post(baseUrl + "users/add", newUser);
+    const userData = newUserResponse.data;
+    if (newUserResponse.status == 200) {
+      console.log("user added: ", userData.userId);
+      const emptyCartRequest = { userId: userData.userId, grandTotal: null };
+      const newCartResponse = await axios.post(
+        baseUrl + "cart/create-cart",
+        emptyCartRequest
+      );
+      const cartData = newCartResponse.data;
+      if (newCartResponse.status == 200) {
+        console.log("cart created: ", cartData.cartId);
+        // setUserId(userData.userId);
+        // setCartId(cartData.cartId);
+        localStorage.setItem("userId", userData.userId);
+        localStorage.setItem("cartId", cartData.cartId);
+        console.log("forwarding to home....");
+        navigate("/");
+      } else {
+        alert("some error occoured, please try again");
+      }
+    }
   };
-  const homePage = useNavigate();
-  const Home = () => {
-    homePage("/");
+
+  const changeHandler = (event) => {
+    setNewUser({ ...newUser, [event.target.name]: event.target.value });
   };
+
   return (
     <Box
-      component="form"
+      component="div"
       sx={{
         "& .MuiTextField-root": { m: 1, width: "30ch" },
         textAlign: "center",
         alignSelf: "center",
+        backgroundImage: `url(${backImage})`,
+        backgroundSize: "clip",
+        backgroundRepeat: "no-repeat",
+        padding: 2.5,
       }}
-      noValidate
-      autoComplete="off"
     >
       <Card
         sx={{ minWidth: 275, marginTop: 10, marginLeft: 41, maxWidth: 700 }}
         elevation={14}
       >
-        <IconButton onClick={() => Home()} sx={{ textAlign: "right" }}>
+        <IconButton onClick={() => navigate("/")} sx={{ textAlign: "right" }}>
           <CancelIcon color="warning" />
         </IconButton>
         <CardHeader title="Enter Your Details" />
@@ -44,35 +87,36 @@ const SignUp = () => {
             required
             id="outlined-required"
             label="Enter Your Name"
-            defaultValue="ABC XYZ"
+            type="text"
+            name="userName"
+            value={newUser.userName}
+            onChange={changeHandler}
           />
           <br />
           <TextField
             required
-            id="outlined-required"
+            id="outlined-required-email"
             label="Enter Your Email"
-            defaultValue="abc@gmail.com"
-          />
-          <br />
-          <TextField
-            id="outlined-number"
-            label="Number"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
+            name="email"
+            type="email"
+            value={newUser.email}
+            onChange={changeHandler}
           />
           <br />
           <TextField
             required
             id="outlined-password-input"
             label="Password"
+            name="password"
             type="password"
             autoComplete="current-password"
+            value={newUser.password}
+            onChange={changeHandler}
           />
           <br />
           <Button
-            onClick={() => Login()}
+            onClick={signpUser}
+            type="submit"
             variant="contained"
             color="success"
             sx={{ backgroundColor: "tomato" }}
@@ -80,7 +124,7 @@ const SignUp = () => {
             Sign Up
           </Button>
           <br />
-          <Link>Have an account? Login</Link>
+          <Link to="/login">Have an account? Login</Link>
         </CardContent>
       </Card>
     </Box>

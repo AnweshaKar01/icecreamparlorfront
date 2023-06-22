@@ -1,17 +1,45 @@
 import React from "react";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Button, Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { Link } from "react-router-dom";
 import backImage from "../Assets/Images/Login_SignUp_BackGround.jpg";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Login = () => {
   const homePage = useNavigate();
-  const Home = () => {
-    homePage("/");
+  const Home = async () => {
+    if (email === "" || password === "") {
+      window.alert("Enter all fields!!");
+      return;
+    } else {
+      const url = "http://localhost:5000/users/login";
+      const data = { emailId: email, password: password };
+      const request = await axios.post(url, data);
+      if (request.status == 200) {
+        localStorage.setItem("userId", request.data);
+        const cartUrl = `http://localhost:5000/cart/getCartItems/${request.data}`;
+        const cartRequest = await axios.get(cartUrl);
+        if (cartRequest.status == 200) {
+          localStorage.setItem("cartId", cartRequest.data.cartId);
+          homePage("/");
+        }
+      } else {
+        alert("could not login please try again");
+      }
+    }
   };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
+  const emailChangeHandler = (event) => {
+    setEmail(event.target.value);
+  };
+  const passwordChangeHandler = (event) => {
+    setPassword(event.target.value);
+  };
   return (
     <Box
       sx={{
@@ -28,7 +56,7 @@ const Login = () => {
           elevation={10}
         >
           <Box
-            component="form"
+            component="div"
             sx={{
               "& .MuiTextField-root": { m: 1, height: 100 },
               textAlign: "center",
@@ -49,6 +77,9 @@ const Login = () => {
                 id="outlined-required"
                 label="Enter Your Email"
                 defaultValue="abc@gmail.com"
+                type="email"
+                value={email}
+                onChange={emailChangeHandler}
               />
               <br />
 
@@ -58,6 +89,8 @@ const Login = () => {
                 label="Password"
                 type="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={passwordChangeHandler}
               />
               <br />
               <Button

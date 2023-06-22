@@ -1,14 +1,27 @@
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { useContext, useEffect } from "react";
- import image from "../Assets/Images/IceCreamImage.webp";
+import { useEffect, useState } from "react";
+import image from "../Assets/Images/flavors/Vanilla.webp";
 import ItemCard from "./ItemCard";
 import axios from "axios";
-import {data} from "../Data/ScoopDetails";
 const GridItems = () => {
-return (
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    async function fetchItems() {
+      try {
+        const url = "http://localhost:5000/inventory/getScoops";
+        const response = await axios.get(url);
+        setData(response.data);
+      } catch (e) {
+        console.error("Error occurred fetching data:", e);
+        setData([]);
+      }
+    }
+    fetchItems();
+  }, []);
+  return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Grid container spacing={1}>
+      <Grid container spacing={2}>
         {data === [] ? (
           <Grid
             container
@@ -22,17 +35,17 @@ return (
           data.map((flavor) => (
             <Grid
               container
-              md={3}
+              md={4}
               xs={12}
               sx={{ justifyContent: "center", marginBottom: 1 }}
-              key={flavor.id}
+              key={flavor.scoopsId}
             >
               <ItemCard
                 title={flavor.title}
                 price={flavor.price}
-                
+                id={flavor.scoopsId}
                 image={image}
-                amountServed={flavor.amountServed}
+                amountServed={"50gm per scoop"}
               />
             </Grid>
           ))
