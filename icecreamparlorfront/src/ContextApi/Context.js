@@ -3,11 +3,10 @@ import { createContext, useState } from "react";
 const IcecreamContext = createContext();
 
 const IcecreamContextProvider = ({ children }) => {
-  const [userId, setUserId] = useState("");
-  const [cartId, setCartId] = useState("");
+  const [grandTotal, setGrandTotal] = useState(0);
 
   return (
-    <IcecreamContext.Provider value={{ userId, setUserId, cartId, setCartId }}>
+    <IcecreamContext.Provider value={{ grandTotal, setGrandTotal }}>
       {children}
     </IcecreamContext.Provider>
   );

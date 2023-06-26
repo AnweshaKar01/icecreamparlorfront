@@ -23,6 +23,7 @@ const ItemCard = ({ title, price, id, image, amountServed }) => {
         price: price,
         quantityOrdered: 1,
       };
+
       const response = await axios.post(url, newItemRequest);
       if (response.status == 200) {
         setDisabled(true);

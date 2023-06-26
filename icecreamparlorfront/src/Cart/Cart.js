@@ -1,5 +1,5 @@
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ShoppingBasketRoundedIcon from "@mui/icons-material/ShoppingBasketRounded";
+import HomeIcon from "@mui/icons-material/Home";
 import { Divider, List } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,23 +8,30 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import IndividualItems from "./IndividualItems";
+import { IcecreamContext } from "../ContextApi/Context";
 function Cart(props) {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
+  const { grandTotal, setGrandTotal } = useContext(IcecreamContext);
+
   const onDeleteCartItem = async (id) => {
     const url = `http://localhost:5000/cart/deleteItem/${id}`;
     const deleteItemRequest = await axios.delete(url);
     if (deleteItemRequest.status == 200) {
       setCartItems((items) => items.filter((i) => i.scoopsId !== id));
+      setGrandTotal();
     } else {
       alert("item could not be deleted from cart");
     }
   };
   const Bill = () => {
     navigate("/bill");
+  };
+  const Home = () => {
+    navigate("/");
   };
   useEffect(() => {
     async function getCartItems() {
@@ -36,6 +43,7 @@ function Cart(props) {
         if (cartItemRequest.status == 200) {
           console.log("cart items: ", cartItemRequest.data);
           setCartItems(cartItemRequest.data.allscoops);
+          setGrandTotal(cartItemRequest.data.grandTotal);
         } else {
           alert("could not find items in your cart");
         }
@@ -45,6 +53,7 @@ function Cart(props) {
     }
     getCartItems();
   }, []);
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar component="nav" position="fixed">
@@ -55,18 +64,18 @@ function Cart(props) {
             sx={{ flexGrow: 1, fontStyle: "italic", fontSizeAdjust: "inherit" }}
             color="azure"
           >
-            Welcome User!
+            FlavorEats
           </Typography>
 
           <Box>
             <Button
-              onClick={() => Bill()}
+              onClick={() => Home()}
               variant="filled"
-              startIcon={<ShoppingBasketRoundedIcon />}
+              startIcon={<HomeIcon />}
               color="#000000"
               sx={{ backgroundColor: "#ffffff" }}
             >
-              Order
+              Home
             </Button>
           </Box>
           <Box>
@@ -97,6 +106,10 @@ function Cart(props) {
             ))
           )}
         </List>
+        <Typography variant="h6">Grand Total: {grandTotal}</Typography>
+        <Button variant="contained" onClick={() => Bill()}>
+          Purchase
+        </Button>
       </Box>
     </Box>
   );
