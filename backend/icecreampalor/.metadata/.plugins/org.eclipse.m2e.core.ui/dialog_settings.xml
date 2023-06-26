@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\CART\cart"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\icecreampalorback\icecreampalor"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\USER\user"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\EUREKA\Service_Registry"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\Application_Gateway"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\USER\user\user\src\main\java\com\user\user"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\CART\cart\cart"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\EUREKA\eurekaservice"/>
+			<item value="C:\Users\2276578\OneDrive - Cognizant\Documents\backend\BILL\bill"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+</section>

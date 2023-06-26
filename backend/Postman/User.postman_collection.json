@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "42c37bed-cc3c-4a86-b0df-0bc1dd7606de",
+		"name": "User",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27660291"
+	},
+	"item": [
+		{
+			"name": "1.Add User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\":\"Trina\",\r\n    \"email\":\"Trina01@gmail.com\",\r\n    \"password\":\"Trina123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{user}}/add",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2.Get User By UserId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{user}}/get/2",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"get",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.Update user details",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 2,\r\n    \"userName\": \"Anwesha Kar\",\r\n    \"email\": \"anwesha01@gmail.com\",\r\n    \"password\": \"kar123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{user}}/update",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.User Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"emailId\":\"Trina01@gmail.com\",\r\n    \"password\":\"Trina123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{user}}/login",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.User Logout",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{user}}/logout/2",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"logout",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{user}}/get",
+					"host": [
+						"{{user}}"
+					],
+					"path": [
+						"get"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
