@@ -11,10 +11,14 @@ import {
   Typography
 } from "@mui/material";
 import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState,useContext } from "react";
+import { IcecreamContext } from "../ContextApi/Context";
+
 const IndividualItems = ({id, title,orderCount,price, onDelete}) => {
   const [addscoop,setAddscoop] = useState(orderCount);
   const [updatedPrice, setUpdatedPrice] = useState(price);
+  const { grandTotal, setGrandTotal } = useContext(IcecreamContext);
+
   useEffect(()=>{
     async function updateItem(){
       const url = "http://localhost:5000/cart/updateCartItems";
@@ -22,6 +26,7 @@ const IndividualItems = ({id, title,orderCount,price, onDelete}) => {
       const updateRequest = await axios.put(url,data);
       if(updateRequest.status==200){
         console.log("updated quantity")
+        setGrandTotal(grandTotal-updatedPrice+updateRequest.data.price);
         setUpdatedPrice(updateRequest.data.price);
       }
     } 
