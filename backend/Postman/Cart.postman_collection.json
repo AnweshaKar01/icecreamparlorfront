@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "d997770b-19d9-40a3-919e-a6c53be9acef",
+		"name": "Cart",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27660291"
+	},
+	"item": [
+		{
+			"name": "1.Create Empty Cart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\":1,\r\n    \"grandTotal\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{cart}}/create-cart",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"create-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2.Add cart Items",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cartId\":2,\r\n    \"scoopName\":\"Vanilla\",\r\n    \"quantityOrdered\":15.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{cart}}/addCartItem",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"addCartItem"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3.Get all cart Items of all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{cart}}/getCartItems",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"getCartItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.Get cart items of a single user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{cart}}/getCartItems/12",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"getCartItems",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5.Update Cart items",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cartId\": 2,\r\n    \"scoopName\": \"Vanilla\",\r\n    \"quantityOrdered\": 1.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{cart}}/updateCartItems",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"updateCartItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6.delete cart items",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{cart}}/deleteCart/52",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"deleteCart",
+						"52"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Purchase ice cream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{cart}}/purchase/Anwesha%20Kar/1",
+					"host": [
+						"{{cart}}"
+					],
+					"path": [
+						"purchase",
+						"Anwesha%20Kar",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;com.cart.cart.cartService.CartService.deleteCartItem(...)&apos; to &apos;deleteCart&apos;&#x0D;&#x0A;- Original project: &apos;cart&apos;&#x0D;&#x0A;- Original element: &apos;com.cart.cart.cartService.CartService.deleteCartItem(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;com.cart.cart.cartService.CartService.deleteCart(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;deleteCartItem&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.cart.cart.cartService{CartService.java[CartService~deleteCartItem~I" name="deleteCart" references="true" stamp="1685366358859" version="1.0"/>
+</session>
