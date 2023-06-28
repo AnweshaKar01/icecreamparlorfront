@@ -15,20 +15,32 @@ import { IcecreamContext } from "../ContextApi/Context";
 function Cart(props) {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
-  const { grandTotal, setGrandTotal } = useContext(IcecreamContext);
+  const { grandTotal, setGrandTotal, bill, setBill } =
+    useContext(IcecreamContext);
 
   const onDeleteCartItem = async (id) => {
     const url = `http://localhost:5000/cart/deleteItem/${id}`;
     const deleteItemRequest = await axios.delete(url);
-    if (deleteItemRequest.status == 200) {
+    if (deleteItemRequest.status === 200) {
       setCartItems((items) => items.filter((i) => i.scoopsId !== id));
       setGrandTotal();
     } else {
       alert("item could not be deleted from cart");
     }
   };
-  const Bill = () => {
-    navigate("/bill");
+  const Bill = async () => {
+    const url = `http://localhost:5000/cart/purchase/${localStorage.getItem(
+      "name"
+    )}/${localStorage.getItem("cartId")}`;
+    try {
+      const purchaseRequest = await axios.get(url);
+      if (purchaseRequest.status === 200) {
+        setBill(purchaseRequest.data);
+        navigate("/bill");
+      }
+    } catch (err) {
+      console.error("could not purchase: ", err);
+    }
   };
   const Home = () => {
     navigate("/");
@@ -41,11 +53,13 @@ function Cart(props) {
         )}`;
         const cartItemRequest = await axios.get(url);
         if (cartItemRequest.status == 200) {
-          console.log("cart items: ", cartItemRequest.data);
-          setCartItems(cartItemRequest.data.allscoops);
-          setGrandTotal(cartItemRequest.data.grandTotal);
+          if (cartItemRequest.data.isPurchased !== true) {
+            console.log("cart items: ", cartItemRequest.data);
+            setCartItems(cartItemRequest.data.allscoops);
+            setGrandTotal(cartItemRequest.data.grandTotal);
+          }
         } else {
-          alert("could not find items in your cart");
+          alert("Cart is empty");
         }
       } else {
         navigate("/login");

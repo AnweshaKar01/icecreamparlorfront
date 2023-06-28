@@ -7,8 +7,6 @@ import { ThemeProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import theme from "./Assets/Theme/Themes";
 import Home from "./Home/Home";
-import Login from "./Login/Login";
-import SignUp from "./Login/SignUp";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
 import Cart from "./Cart/Cart";

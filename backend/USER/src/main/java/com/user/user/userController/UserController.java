@@ -72,13 +72,13 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<String> userLogin(@RequestBody Login login) {
+	public ResponseEntity<UserPOJO> userLogin(@RequestBody Login login) {
 		System.out.println("incoming: " + login);
-		Integer doLogin = userServiceImpl.login(login);
-		if (doLogin!=null) {
-			return ResponseEntity.status(HttpStatus.SC_OK).body(doLogin.toString());
+		UserPOJO loggedin = userServiceImpl.login(login);
+		if (loggedin!=null) {
+			return ResponseEntity.status(HttpStatus.SC_OK).body(loggedin);
 		} else {
-			return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body("could not login");
+			return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).body(new UserPOJO(0, null));
 		}
 	}
 

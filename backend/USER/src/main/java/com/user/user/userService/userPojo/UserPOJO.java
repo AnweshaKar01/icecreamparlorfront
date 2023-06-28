@@ -7,6 +7,4 @@ import lombok.Data;
 public class UserPOJO {
 	private int userId;
 	private String userName;
-	
-	
 }
