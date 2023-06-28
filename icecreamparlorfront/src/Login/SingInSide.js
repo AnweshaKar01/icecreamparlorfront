@@ -24,17 +24,23 @@ export default function SignInSide() {
       return;
     } else {
       const url = "http://localhost:5000/users/login";
-      const request = await axios.post(url, data);
-      if (request.status === 200) {
-        localStorage.setItem("userId", request.data);
-        const cartUrl = `http://localhost:5000/cart/getCartItems/${request.data}`;
-        const cartRequest = await axios.get(cartUrl);
-        if (cartRequest.status === 200) {
-          localStorage.setItem("cartId", cartRequest.data.cartId);
-          navigate("/");
+      try {
+        const request = await axios.post(url, data);
+        if (request.status === 200) {
+          localStorage.setItem("userId", request.data.userId);
+          localStorage.setItem("name", request.data.userName);
+          const cartUrl = `http://localhost:5000/cart/getCartItems/${request.data.userId}`;
+          const cartRequest = await axios.get(cartUrl);
+          if (cartRequest.status === 200) {
+            localStorage.setItem("cartId", cartRequest.data.cartId);
+            navigate("/");
+          }
+        } else {
+          alert("could not login please try again");
         }
-      } else {
-        alert("could not login please try again");
+      } catch (err) {
+        alert("email/password wrong");
+        console.error("could not login: ", err);
       }
     }
   };
@@ -114,7 +120,7 @@ export default function SignInSide() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/singup" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

@@ -43,7 +43,7 @@ function NavBar(props) {
     if (localStorage.getItem("userId") && localStorage.getItem("cartId")) {
       setIsLoggedIn(true);
     }
-  });
+  }, []);
   const drawerWidth = 240;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);

@@ -10,6 +10,7 @@ import com.user.user.userEntity.Login;
 import com.user.user.userEntity.User;
 import com.user.user.userExceptions.InvalidUserCredentialsException;
 import com.user.user.userRepository.UserRepo;
+import com.user.user.userService.userPojo.UserPOJO;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		return userRepo.save(user);
 	}
 
-	public Integer login(Login login) {
+	public UserPOJO login(Login login) {
 		// TODO Auto-generated method stub
 		Optional<User> doesUserExist = userRepo.findByEmail(login.getEmailId());
 		if (doesUserExist.isPresent()) {
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
 			if (user.getPassword().equals(login.getPassword())) {
 				user.setLoggedIn(true);
 				userRepo.save(user);
-				return user.getUserId();
+				return new UserPOJO(user.getUserId(), user.getUserName());
 			}
 		}
 		return null;
