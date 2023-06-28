@@ -1,9 +1,0 @@
-com\cart\cart\cartService\CartService.class
-com\cart\cart\CartApplication.class
-com\cart\cart\cartController\CartController.class
-com\cart\cart\cartEntity\Scoops.class
-com\cart\cart\cartRepository\CartRepo.class
-com\cart\cart\cartService\CartServiceImpl.class
-com\cart\cart\cartEntity\Bill.class
-com\cart\cart\cartEntity\Cart.class
-com\cart\cart\config\RestConfig.class
