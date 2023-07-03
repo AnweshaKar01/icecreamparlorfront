@@ -13,26 +13,30 @@ spring:
           predicates:
             - Path=/users/**
         - id: cart
-          uri: lb://CART
+          uri: lb://TRANSACTION
           predicates:
             - Path=/cart/**
+        - id: bill
+          uri: lb://TRANSACTION
+          predicates:
+            - Path=/bill/**
       globalcors:
         corsConfigurations:
-          '[/**]':
-             allowedOrigins: "*"
-             allowedHeaders:
-             - content-type
-             allowedMethods:
-               - GET
-               - POST
-               - PUT
-               - DELETE
+          "[/**]":
+            allowedOrigins: "*"
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
 logging:
   level:
     web: debug
 server:
   port: 5000
-   
+
 eureka:
   client:
     fetch-registry: true
