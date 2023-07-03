@@ -2,11 +2,53 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Spring Boot-CartApplication<CART>",
+      "name": "Spring Boot-ServiceRegistryApplication<Service_Registry>",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.cart.cart.CartApplication",
-      "projectName": "CART",
+      "mainClass": "com.cts.interim_project.Service_Registry.ServiceRegistryApplication",
+      "projectName": "Service_Registry",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-TransactionApplication<transactions>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.transactions.transactions.TransactionApplication",
+      "projectName": "transactions",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=41121 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=transactions"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-IcecreampalorApplication<icecreampalor>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.icecreamparlor.icecreampalor.IcecreampalorApplication",
+      "projectName": "icecreampalor",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env",
+      "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=37209 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=icecreampalor"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-UserApplication<user>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.user.user.UserApplication",
+      "projectName": "user",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ApplicationGatewayApplication<Application_Gateway>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "com.cts.interim_project.Application_Gateway.ApplicationGatewayApplication",
+      "projectName": "Application_Gateway",
       "args": "",
       "envFile": "${workspaceFolder}/.env"
     }

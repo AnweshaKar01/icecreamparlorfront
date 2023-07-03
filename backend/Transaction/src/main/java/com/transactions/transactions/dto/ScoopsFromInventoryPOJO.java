@@ -1,22 +1,5 @@
 package com.transactions.transactions.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class ScoopsFromInventoryPOJO {
+public record ScoopsFromInventoryPOJO(Integer scoopsId, String title, Double price, Double amount) {
 	// this is the scoop from icecreamparlor
-	private Integer scoopsId;
-
-	private String title;
-
-	private double price;
-
-	private double amount; // for amount left in stock
-
 }

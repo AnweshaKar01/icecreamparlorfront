@@ -2,7 +2,7 @@ package com.transactions.transactions.cart.cartEntity;
 
 import java.util.List;
 
-import com.transactions.transactions.scoops.entity.Scoops;
+import com.transactions.transactions.scoops.entity.Scoops_Cart;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,16 +20,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cart {
-	// TODO: check if that user has logged in or not before adding to cart
 	// TODO: User can only get their own cart
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int cartId;
+	@GeneratedValue
+	private Integer cartId;
 	@Column(unique = true)
 	private Integer userId;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-	private List<Scoops> allscoops;
+	private List<Scoops_Cart> allscoops;
 	private Boolean isPurchased;
 	@Column(nullable = true)
 	private Double grandTotal;

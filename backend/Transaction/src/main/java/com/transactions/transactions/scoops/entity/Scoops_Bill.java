@@ -17,49 +17,27 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-// this tells spring boot that this particular class belongs to the entity in
-// mysql db
-@Data // will automatically generate the getters and setters
-@Table(name = "Scoops_Cart")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Scoops {
+public class Scoops_Bill {
 	@Id
 	@GeneratedValue
-	private int scoopsId;
-	// jsonIgnore to stop infinite loop
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "cartid", nullable = false)
-	private Cart cart;
+	private Integer scoopsId;
 	@NotBlank
 	private String scoopName;
-
-	private Double price;
-
-	private Integer quantityOrdered;
-
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "billId", nullable = true)
+	@JoinColumn(name = "billid", nullable = true)
 	private Bill bill;
-
-	// used to update scoop
-	public Scoops(int scoopId, Cart cart, String scoopName, Double price, int quantityOrdered) {
-		super();
-		this.scoopsId = scoopId;
-		this.cart = cart;
-		this.scoopName = scoopName;
-		this.price = price;
-		this.quantityOrdered = quantityOrdered;
-	}
+	private Double price;
+	private Integer quantityOrdered;
 
 	// used to create scoop
-	public Scoops(Cart cart, String scoopName, Double price, int quantityOrdered) {
-		super();
-		this.cart = cart;
+	public Scoops_Bill(Bill bill, String scoopName, Double price, Integer quantityOrdered) {
 		this.scoopName = scoopName;
+		this.bill = bill;
 		this.price = price;
 		this.quantityOrdered = quantityOrdered;
 	}
