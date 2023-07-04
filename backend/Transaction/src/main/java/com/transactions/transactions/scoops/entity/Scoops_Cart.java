@@ -9,15 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Entity
 @Data
 @NoArgsConstructor
-@ToString
 public class Scoops_Cart {
 	@Id
 	@GeneratedValue
@@ -49,6 +46,12 @@ public class Scoops_Cart {
 		this.scoopName = scoopName;
 		this.price = price;
 		this.quantityOrdered = quantityOrdered;
+	}
+
+	@Override
+	public String toString() {
+		return "Scoops_Cart [scoopsId=" + scoopsId + ", cart=" + cart + ", scoopName=" + scoopName + ", price=" + price
+				+ ", quantityOrdered=" + quantityOrdered + "]";
 	}
 
 }

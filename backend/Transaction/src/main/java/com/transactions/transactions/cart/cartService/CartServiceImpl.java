@@ -1,5 +1,6 @@
 package com.transactions.transactions.cart.cartService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +61,6 @@ public class CartServiceImpl {
 
 	public Cart createEmptyCart(Cart cart) {
 		cart.setGrandTotal(0.0);
-		cart.setIsPurchased(false);
 		return cartRepo.save(cart);
 	}
 
@@ -117,17 +117,23 @@ public class CartServiceImpl {
 		}
 	}
 
-	public String deleteCartItem(int itemId) {
-		return scoopService_cart.deleteScoopFromCart(itemId);
+	public String deleteCartItem(Integer userId, Integer itemId) {
+		Cart cart = getCartOfaUser(userId);
+		Scoops_Cart scoopToBeDeleted = scoopService_cart.getScoopsById(itemId);
+		cart.setGrandTotal(cart.getGrandTotal() - scoopToBeDeleted.getPrice());
+		String result = scoopService_cart.deleteScoopFromCart(itemId);
+		cartRepo.save(cart);
+		return result;
 	}
 
-	public String clearCart(Integer userId) {
+	public String clearCart(Cart cartToBeCleared) {
 		try {
-			Cart cartToBeCleared = getCartOfaUser(userId);
-			cartRepo.deleteById(cartToBeCleared.getCartId());
+			scoopService_cart.deleteAllScoopsOfACart(cartToBeCleared.getAllscoops());
+			cartToBeCleared.setAllscoops(new ArrayList<>());
+			cartToBeCleared.setGrandTotal(0.0);
+			cartRepo.save(cartToBeCleared);
 			return "Cart cleared";
 		} catch (ResourceNotFound e) {
-
 			throw new ResourceNotFound("Cart item deleted");
 		}
 

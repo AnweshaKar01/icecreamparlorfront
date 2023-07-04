@@ -29,7 +29,7 @@ public class Scoops_Bill {
 	private String scoopName;
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "billid", nullable = true)
+	@JoinColumn(name = "billid", nullable = false)
 	private Bill bill;
 	private Double price;
 	private Integer quantityOrdered;

@@ -15,9 +15,11 @@ import com.transactions.transactions.scoops.entity.Scoops_Cart;
 import com.transactions.transactions.scoops.repository.Scoops_CartRepo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
     private final RestTemplate restTemplate;
     private final Scoops_CartRepo scoops_cartRepo;
@@ -37,6 +39,10 @@ public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
         return null;
     }
 
+    public Scoops_Cart getScoopsById(Integer scoopId) {
+        return scoops_cartRepo.findById(scoopId).orElse(null);
+    }
+
     public Optional<ScoopsFromInventoryPOJO> getScoopsFromInventory(Scoops_CartPOJO scoop) {
         try {
             ScoopsFromInventoryPOJO optional_inventoryScoop = restTemplate.getForObject(
@@ -49,9 +55,11 @@ public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
 
     }
 
-    public String deleteScoopFromCart(int itemId) {
+    public String deleteScoopFromCart(Integer itemId) {
         try {
+
             Optional<Scoops_Cart> scoop = scoops_cartRepo.findById(itemId);
+            // log.error("clearing scoop: {}", scoop.get());
             if (scoop.isPresent()) {
                 scoops_cartRepo.deleteById(itemId);
                 return "deleted";
@@ -61,6 +69,17 @@ public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
 
         } catch (ResourceNotFound e) {
             throw e;
+        }
+    }
+
+    public String deleteAllScoopsOfACart(List<Scoops_Cart> allScoops) {
+        try {
+            allScoops.parallelStream().forEach(s -> {
+                scoops_cartRepo.deleteById(s.getScoopsId());
+            });
+            return "All scoops deleted";
+        } catch (Exception ex) {
+            throw ex;
         }
     }
 

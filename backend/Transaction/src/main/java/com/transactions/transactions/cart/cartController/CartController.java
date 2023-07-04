@@ -36,7 +36,7 @@ public class CartController {
 
 	// add a single item to a cart
 	@PostMapping("/addCartItem")
-	public Scoops_Cart postCartItem(@RequestHeader("Authorizantion") Integer userId,
+	public Scoops_Cart postCartItem(@RequestHeader("Authorization") Integer userId,
 			@RequestBody Scoops_CartPOJO scoop) {
 		return cartServiceImpl.saveCartItem(userId, scoop);
 
@@ -58,7 +58,7 @@ public class CartController {
 	}
 
 	@PutMapping("/updateCartItems")
-	public Scoops_Cart updateCartItem(@RequestHeader("Authorizantion") Integer userId,
+	public Scoops_Cart updateCartItem(@RequestHeader("Authorization") Integer userId,
 			@RequestBody Scoops_CartPOJO scoop) {
 		Scoops_Cart updatedCartItem = cartServiceImpl.updateCartItem(userId, scoop);
 		try {
@@ -70,9 +70,9 @@ public class CartController {
 	}
 
 	@DeleteMapping("/deleteItem/{itemId}")
-	public void deleteItem(@PathVariable int itemId) {
+	public void deleteItem(@RequestHeader("Authorization") Integer authorization, @PathVariable int itemId) {
 		try {
-			cartServiceImpl.deleteCartItem(itemId);
+			cartServiceImpl.deleteCartItem(authorization, itemId);
 		} catch (ResourceAccessException ex) {
 			throw new ResourceNotFound(ex.getMessage());
 		}
