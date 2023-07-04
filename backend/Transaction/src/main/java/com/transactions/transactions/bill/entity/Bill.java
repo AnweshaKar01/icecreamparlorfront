@@ -8,6 +8,7 @@ import com.transactions.transactions.scoops.entity.Scoops_Bill;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -27,7 +28,7 @@ public class Bill {
 	private String userName;
 
 	// joining bill to scoop
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bill")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "bill", fetch = FetchType.EAGER)
 	private List<Scoops_Bill> allscoops;
 
 	@Column(nullable = true)

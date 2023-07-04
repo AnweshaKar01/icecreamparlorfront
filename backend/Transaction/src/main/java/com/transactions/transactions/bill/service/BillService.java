@@ -1,6 +1,7 @@
 package com.transactions.transactions.bill.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,9 +16,11 @@ import com.transactions.transactions.scoops.service.ScoopService_Bill;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BillService {
     private final BillRepo billRepo;
     private final CartServiceImpl cartService;
@@ -43,5 +46,14 @@ public class BillService {
         });
         cartService.clearCart(cart);
         return generatedBill;
+    }
+
+    public List<Bill> getAllBillsOfASingleUser(Integer userId) {
+        return billRepo.findByUserId(userId);
+    }
+
+    public Bill getIndividualBillOfAUser(Integer billId) {
+        log.error("Fetching bill of: {}", billId);
+        return billRepo.findById(billId).orElse(null);
     }
 }
