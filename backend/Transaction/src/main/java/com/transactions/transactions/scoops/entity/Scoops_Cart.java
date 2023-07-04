@@ -3,6 +3,7 @@ package com.transactions.transactions.scoops.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.transactions.transactions.cart.cartEntity.Cart;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,6 +26,7 @@ public class Scoops_Cart {
 	@JoinColumn(name = "cartid", nullable = false)
 	private Cart cart;
 	@NotBlank
+	@Column(unique = true, length = 256)
 	private String scoopName;
 
 	private Double price;

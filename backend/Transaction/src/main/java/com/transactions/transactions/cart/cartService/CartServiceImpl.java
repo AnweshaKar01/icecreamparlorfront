@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import com.transactions.transactions.Exception.DuplicateEntity;
 import com.transactions.transactions.Exception.InvalidRequest;
 import com.transactions.transactions.Exception.ResourceNotFound;
 import com.transactions.transactions.cart.cartEntity.Cart;
@@ -48,7 +50,11 @@ public class CartServiceImpl {
 				cart.setGrandTotal(cart.getGrandTotal() + newScoop.getPrice());
 				cartRepo.save(cart);
 				// save in which cart the items are added
-				return scoopService_cart.addScoop(newScoop);
+				try {
+					return scoopService_cart.addScoop(newScoop);
+				} catch (DataIntegrityViolationException ex) {
+					throw new DuplicateEntity("Same icecream already exists in cart");
+				}
 
 			} else {
 				throw new ResourceNotFound("given ice cream not found in inventory");

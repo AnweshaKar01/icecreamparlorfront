@@ -15,11 +15,9 @@ import com.transactions.transactions.scoops.entity.Scoops_Cart;
 import com.transactions.transactions.scoops.repository.Scoops_CartRepo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
     private final RestTemplate restTemplate;
     private final Scoops_CartRepo scoops_cartRepo;

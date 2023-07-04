@@ -7,13 +7,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-	@ExceptionHandler(ResourceNotFound.class)
 	// ProblemDetail is a class that provides a standardized way to send errors to
 	// client
+	@ExceptionHandler(ResourceNotFound.class)
 	public ProblemDetail handleException(ResourceNotFound e) {
 		ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(500), e.getMessage());
 		problem.setTitle("resource not found");
+		return problem;
+	}
+
+	@ExceptionHandler(DuplicateEntity.class)
+	public ProblemDetail handleException(DuplicateEntity e) {
+		ProblemDetail problem = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(409), e.getMessage());
+		problem.setTitle("Ice cream already added to cart");
 		return problem;
 	}
 
