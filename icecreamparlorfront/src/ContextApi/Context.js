@@ -1,18 +1,13 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const IcecreamContext = createContext();
 
-const IcecreamContextProvider = ({ children }) => {
-  const [grandTotal, setGrandTotal] = useState(0);
-  const [bill, setBill] = useState("");
-
+const IcecreamContextProvider = ({ reducer, initialState, children }) => {
   return (
-    <IcecreamContext.Provider
-      value={{ grandTotal, setGrandTotal, bill, setBill }}
-    >
+    <IcecreamContext.Provider value={useReducer(reducer, initialState)}>
       {children}
     </IcecreamContext.Provider>
   );
 };
-
-export { IcecreamContextProvider, IcecreamContext };
+const useStateValue = () => useContext(IcecreamContext);
+export { IcecreamContext, IcecreamContextProvider, useStateValue };

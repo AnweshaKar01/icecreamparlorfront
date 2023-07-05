@@ -4,9 +4,11 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { IcecreamContextProvider } from "./ContextApi/Context";
+import { initialState } from "./ContextApi/InitialState";
+import reducer from "./ContextApi/Reducer";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <IcecreamContextProvider>
+  <IcecreamContextProvider initialState={initialState} reducer={reducer}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
