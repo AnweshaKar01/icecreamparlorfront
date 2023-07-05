@@ -29,6 +29,7 @@ export default function SignInSide() {
         if (request.status === 200) {
           localStorage.setItem("userId", request.data.userId);
           localStorage.setItem("name", request.data.userName);
+          localStorage.setItem("userRole", request.data.role);
           const cartUrl = `http://localhost:5000/cart/getCartItems/${request.data.userId}`;
           const cartRequest = await axios.get(cartUrl);
           if (cartRequest.status === 200) {

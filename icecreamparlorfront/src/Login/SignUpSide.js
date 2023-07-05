@@ -36,13 +36,15 @@ export default function SignUpSide() {
       console.log("user added: ", userData.userId);
       const emptyCartRequest = { userId: userData.userId, grandTotal: null };
       const newCartResponse = await axios.post(
-        baseUrl + "cart/create-cart",
+        baseUrl + "cart/createCart",
         emptyCartRequest
       );
       const cartData = newCartResponse.data;
       if (newCartResponse.status === 200) {
         console.log("cart created: ", cartData.cartId);
         localStorage.setItem("userId", userData.userId);
+        localStorage.setItem("name", userData.userName);
+        localStorage.setItem("userRole", userData.role);
         localStorage.setItem("cartId", cartData.cartId);
         console.log("forwarding to home....");
         navigate("/");

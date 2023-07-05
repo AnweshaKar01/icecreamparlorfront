@@ -1,131 +1,113 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HomeIcon from "@mui/icons-material/Home";
 import { Divider, List } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import { useState, useEffect, Fragment, useContext } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../Components/Navbar";
 import IndividualItems from "./IndividualItems";
-import { IcecreamContext } from "../ContextApi/Context";
+import { useStateValue } from "../ContextApi/Context";
 function Cart(props) {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
-  const { grandTotal, setGrandTotal, bill, setBill } =
-    useContext(IcecreamContext);
-
-  const onDeleteCartItem = async (id) => {
-    const url = `http://localhost:5000/cart/deleteItem/${id}`;
-    const deleteItemRequest = await axios.delete(url);
+  const [, dispatch] = useStateValue();
+  const [cart, setCart] = useState({});
+  const onDeleteCartItem = async (scoopsId) => {
+    const url = `http://localhost:5000/cart/deleteItem/${scoopsId}`;
+    const headers = {
+      "Content-Type": "application/json", // Example header
+      Authorization: localStorage.getItem("userId"), // Example header
+    };
+    const deleteItemRequest = await axios.delete(url, { headers });
     if (deleteItemRequest.status === 200) {
-      setCartItems((items) => items.filter((i) => i.scoopsId !== id));
-      setGrandTotal();
+      const deletedScoop = cart.allscoops.find(
+        (scoop) => scoop.scoopsId === scoopsId
+      );
+      if (!deletedScoop) return; // Return if no matching scoop is found
+      dispatch({
+        type: "removefromCart",
+        data: deletedScoop.invItemId,
+      });
+      getCartItems();
     } else {
       alert("item could not be deleted from cart");
     }
   };
+  const onUpdateCartItem = (total) => {
+    setCart({ ...cart, grandTotal: total });
+  };
   const Bill = async () => {
-    const url = `http://localhost:5000/cart/purchase/${localStorage.getItem(
-      "name"
-    )}/${localStorage.getItem("cartId")}`;
+    const url = "http://localhost:5000/bill/purchase";
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: localStorage.getItem("userId"),
+    };
+    const billingDetails = {
+      userName: localStorage.getItem("name"),
+    };
     try {
-      const purchaseRequest = await axios.get(url);
+      const purchaseRequest = await axios.post(url, billingDetails, {
+        headers,
+      });
       if (purchaseRequest.status === 200) {
-        setBill(purchaseRequest.data);
-        navigate("/bill");
+        navigate(`/bill/${purchaseRequest.data.billId}`);
       }
     } catch (err) {
       console.error("could not purchase: ", err);
     }
   };
-  const Home = () => {
-    navigate("/");
-  };
-  useEffect(() => {
-    async function getCartItems() {
-      if (localStorage.getItem("userId")) {
-        const url = `http://localhost:5000/cart/getCartItems/${localStorage.getItem(
-          "userId"
-        )}`;
-        const cartItemRequest = await axios.get(url);
-        if (cartItemRequest.status == 200) {
-          if (cartItemRequest.data.isPurchased !== true) {
-            console.log("cart items: ", cartItemRequest.data);
-            setCartItems(cartItemRequest.data.allscoops);
-            setGrandTotal(cartItemRequest.data.grandTotal);
-          }
-        } else {
-          alert("Cart is empty");
+  async function getCartItems() {
+    if (localStorage.getItem("userId")) {
+      const url = `http://localhost:5000/cart/getCartItems/${localStorage.getItem(
+        "userId"
+      )}`;
+      const cartItemRequest = await axios.get(url);
+      if (cartItemRequest.status === 200) {
+        if (cartItemRequest.data.isPurchased !== true) {
+          console.log("cart items: ", cartItemRequest.data);
+          setCart(cartItemRequest.data);
         }
       } else {
-        navigate("/login");
+        alert("Cart is empty");
       }
+    } else {
+      navigate("/login");
     }
+  }
+
+  useEffect(() => {
     getCartItems();
   }, []);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" position="fixed">
-        <Toolbar>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ flexGrow: 1, fontStyle: "italic", fontSizeAdjust: "inherit" }}
-            color="azure"
-          >
-            FlavorEats
-          </Typography>
-
-          <Box>
-            <Button
-              onClick={() => Home()}
-              variant="filled"
-              startIcon={<HomeIcon />}
-              color="#000000"
-              sx={{ backgroundColor: "#ffffff" }}
-            >
-              Home
-            </Button>
-          </Box>
-          <Box>
-            <IconButton>
-              <AccountCircleIcon fontSize="large" color="white" />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-
-      <Box component="main" sx={{ pt: 3, pl: 1, pr: 1, flexGrow: 1 }}>
-        <Toolbar />
-        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-          {cartItems === [] ? (
-            <Typography>Cart is empty</Typography>
-          ) : (
-            cartItems.map((item) => (
-              <Fragment key={item.scoopName}>
-                <IndividualItems
-                  id={item.scoopsId}
-                  title={item.scoopName}
-                  price={item.price}
-                  orderCount={item.quantityOrdered}
-                  onDelete={onDeleteCartItem}
-                />
-                <Divider variant="inset" component="li" />
-              </Fragment>
-            ))
-          )}
-        </List>
-        <Typography variant="h6">Grand Total: {grandTotal}</Typography>
-        <Button variant="contained" onClick={() => Bill()}>
-          Purchase
-        </Button>
-      </Box>
-    </Box>
+    <NavBar navBarText={"FlavourEats"}>
+      <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        {Object.keys(cart).length === 0 ? (
+          <Typography>Cart is empty</Typography>
+        ) : (
+          cart.allscoops.map((item) => (
+            <Fragment key={item.scoopName}>
+              <IndividualItems
+                id={item.scoopsId}
+                title={item.scoopName}
+                price={item.price}
+                grandTotal={cart.grandTotal}
+                orderCount={item.quantityOrdered}
+                onDelete={onDeleteCartItem}
+                onUpdate={onUpdateCartItem}
+                key={item.scoopsId}
+              />
+              <Divider variant="inset" component="li" />
+            </Fragment>
+          ))
+        )}
+      </List>
+      <Typography variant="h6">
+        Grand Total: {cart.grandTotal ? cart.grandTotal : 0.0}
+      </Typography>
+      <Button variant="contained" onClick={() => Bill()}>
+        Purchase
+      </Button>
+    </NavBar>
   );
 }
 

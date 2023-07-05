@@ -20,6 +20,8 @@ public class Scoops_Cart {
 	@Id
 	@GeneratedValue
 	private Integer scoopsId;
+	// This is the id of the icecream from inventory
+	private Integer invItemId;
 	// jsonIgnore to stop infinite loop
 	@JsonIgnore
 	@ManyToOne
@@ -34,8 +36,10 @@ public class Scoops_Cart {
 	private Integer quantityOrdered;
 
 	// used to update scoop
-	public Scoops_Cart(int scoopId, Cart cart, String scoopName, Double price, int quantityOrdered) {
+	public Scoops_Cart(Integer scoopId, Integer invItemId, Cart cart, String scoopName, Double price,
+			int quantityOrdered) {
 		this.scoopsId = scoopId;
+		this.invItemId = invItemId;
 		this.cart = cart;
 		this.scoopName = scoopName;
 		this.price = price;
@@ -43,8 +47,9 @@ public class Scoops_Cart {
 	}
 
 	// used to create scoop
-	public Scoops_Cart(Cart cart, String scoopName, Double price, int quantityOrdered) {
+	public Scoops_Cart(Cart cart, Integer invItemId, String scoopName, Double price, int quantityOrdered) {
 		this.cart = cart;
+		this.invItemId = invItemId;
 		this.scoopName = scoopName;
 		this.price = price;
 		this.quantityOrdered = quantityOrdered;

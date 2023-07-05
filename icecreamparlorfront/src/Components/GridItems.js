@@ -22,7 +22,7 @@ const GridItems = () => {
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
       <Grid container spacing={2}>
-        {data === [] ? (
+        {data.length === 0 ? (
           <Grid
             container
             md={3}
@@ -32,18 +32,18 @@ const GridItems = () => {
             <Typography>No Data Available</Typography>
           </Grid>
         ) : (
-          data.map((flavor) => (
+          data.map((icecream) => (
             <Grid
               container
               md={4}
               xs={12}
               sx={{ justifyContent: "center", marginBottom: 1 }}
-              key={flavor.scoopsId}
+              key={icecream.scoopsId}
             >
               <ItemCard
-                title={flavor.title}
-                price={flavor.price}
-                id={flavor.scoopsId}
+                title={icecream.title}
+                price={icecream.price}
+                id={icecream.scoopsId}
                 image={image}
                 amountServed={"50gm per scoop"}
               />

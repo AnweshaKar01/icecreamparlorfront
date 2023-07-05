@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.user.user.userEntity.Login;
 import com.user.user.userEntity.User;
+import com.user.user.userEntity.UserRole;
 import com.user.user.userExceptions.InvalidUserCredentialsException;
 import com.user.user.userRepository.UserRepo;
 import com.user.user.userService.userPojo.UserPOJO;
@@ -16,41 +17,36 @@ import com.user.user.userService.userPojo.UserPOJO;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@Override
 	public User postUser(User user) {
-
+		user.setRole(UserRole.USER);
 		return userRepo.save(user);
 	}
 
 	@Override
 	public List<User> getAllUser() {
-		// TODO Auto-generated method stub
 		return userRepo.findAll();
 	}
 
 	@Override
 	public User getOneUser(int id) {
-		// TODO Auto-generated method stub
 		Optional<User> singleUser = userRepo.findById(id);
 		return singleUser.orElse(null);
 	}
 
 	@Override
 	public void deleteUser(int id) {
-		// TODO Auto-generated method stub
 		userRepo.deleteById(id);
 
 	}
 
 	@Override
 	public User updateUser(User user) {
-		// TODO Auto-generated method stub
 		return userRepo.save(user);
 	}
 
 	public UserPOJO login(Login login) {
-		// TODO Auto-generated method stub
 		Optional<User> doesUserExist = userRepo.findByEmail(login.getEmailId());
 		if (doesUserExist.isPresent()) {
 			// user is present
@@ -58,7 +54,7 @@ public class UserServiceImpl implements UserService {
 			if (user.getPassword().equals(login.getPassword())) {
 				user.setLoggedIn(true);
 				userRepo.save(user);
-				return new UserPOJO(user.getUserId(), user.getUserName());
+				return new UserPOJO(user.getUserId(), user.getUserName(), user.getRole());
 			}
 		}
 		return null;

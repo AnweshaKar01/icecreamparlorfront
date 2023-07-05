@@ -40,7 +40,7 @@ const router = createBrowserRouter([
     element: <Cart />,
   },
   {
-    path: "/bill",
+    path: "/bill/:billId",
     element: <Bill />,
   },
 ]);

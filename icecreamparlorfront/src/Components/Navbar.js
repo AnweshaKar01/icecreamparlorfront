@@ -19,7 +19,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
-function NavBar(props) {
+function NavBar({ navBarText, children }) {
   const loginPage = useNavigate();
   const [isLogggedIn, setIsLoggedIn] = useState(false);
   const Login = () => {
@@ -30,7 +30,7 @@ function NavBar(props) {
       "userId"
     )}`;
     const request = await axios.delete(url);
-    if (request.status == 200) {
+    if (request.status === 200) {
       localStorage.clear();
       setIsLoggedIn(false);
     }
@@ -135,7 +135,9 @@ function NavBar(props) {
             }}
             color="azure"
           >
-            FlavorEats
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+              {navBarText}
+            </Link>
           </Typography>
           <Box>
             <IconButton onClick={() => Cart()}>
@@ -170,7 +172,7 @@ function NavBar(props) {
       </AppBar>
       <Box component="main" sx={{ pt: 3, pl: 1, pr: 1, flexGrow: 1 }}>
         <Toolbar />
-        {props.children}
+        {children}
       </Box>
     </Box>
   );

@@ -43,7 +43,7 @@ public class CartServiceImpl {
 				}
 				// scoop object is being created to be added to cart
 				// cart.get()-> It sets the cart in which the scoop is added
-				Scoops_Cart newScoop = new Scoops_Cart(cart, scoop.scoopName(),
+				Scoops_Cart newScoop = new Scoops_Cart(cart, inventoryScoop.scoopsId(), scoop.scoopName(),
 						inventoryScoop.price() * scoop.quantityOrdered(), scoop.quantityOrdered());
 				// adding scoops to cart
 				// adding the total price after each added item
@@ -102,7 +102,8 @@ public class CartServiceImpl {
 				if (optional_inventoryScoop.isPresent()) {
 					ScoopsFromInventoryPOJO inventoryScoop = optional_inventoryScoop.get();
 					// creating a new scoop object for updating
-					Scoops_Cart newScoop = new Scoops_Cart(scoopTobeUpdated.getScoopsId(), cart, scoop.scoopName(),
+					Scoops_Cart newScoop = new Scoops_Cart(scoopTobeUpdated.getScoopsId(), inventoryScoop.scoopsId(),
+							cart, scoop.scoopName(),
 							inventoryScoop.price() * scoop.quantityOrdered(), scoop.quantityOrdered());
 					// updating the grand total of the cart
 					// by deducting the old price of the ice cream and adding the new price

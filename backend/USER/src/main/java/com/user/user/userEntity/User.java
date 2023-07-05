@@ -2,11 +2,11 @@ package com.user.user.userEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -17,20 +17,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="Users")
+@Table(name = "Users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="UserID")
 	private int userId;
-	@Column (name="NAME",nullable=false)
+	@Column(nullable = false)
 	private String userName;
-	@Column (name="EMAIL",nullable=false,unique=true)
+	@Column(nullable = false, unique = true)
 	@Email
 	private String email;
-	@Column (name="PASSWORD",nullable=false)
-	private String password;	
+	@Column(nullable = false)
+	private String password;
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
 	@Column(columnDefinition = "boolean default false")
 	private boolean isLoggedIn;
-	
+
 }

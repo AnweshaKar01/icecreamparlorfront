@@ -1,47 +1,38 @@
-import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {
-  AppBar,
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
   Link,
-  Toolbar,
   Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import NavBar from "../Components/Navbar";
 import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { IcecreamContext } from "../ContextApi/Context";
+import { useParams } from "react-router-dom";
 const Bill = () => {
-  const navigate = useNavigate();
-  const [isLogggedIn, setIsLoggedIn] = useState(false);
-  const Home = () => {
-    navigate("/");
-  };
-  const Login = () => {
-    navigate("/login");
-  };
-  const Logout = async () => {
-    const url = `http://localhost:5000/users/logout/${localStorage.getItem(
-      "userId"
-    )}`;
-    const request = await axios.delete(url);
-    if (request.status === 200) {
-      localStorage.clear();
-      setIsLoggedIn(false);
-    }
-  };
+  const [currentBill, setCurrentBill] = useState({});
+  const { billId } = useParams();
   useEffect(() => {
-    if (localStorage.getItem("userId") && localStorage.getItem("cartId")) {
-      setIsLoggedIn(true);
+    async function fetchBill() {
+      const billRequest = await axios.get(
+        `http://localhost:5000/bill/get/${billId}`
+      );
+      if (billRequest.status === 200) {
+        setCurrentBill(billRequest.data);
+      }
     }
+    fetchBill();
   }, []);
-  const { grandTotal, setGrandTotal, bill, setBill } =
-    useContext(IcecreamContext);
   const getDT = (timeStamp) => {
     const datetime = new Date(timeStamp);
     const year = datetime.getFullYear();
@@ -51,87 +42,89 @@ const Bill = () => {
     const minutes = datetime.getMinutes();
     const seconds = datetime.getSeconds();
     return {
-      date: `${year}-${month}-${day}`,
+      date: `${day}/${month}/${year}`,
       time: `${hours}:${minutes}:${seconds}`,
     };
   };
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar component="nav" position="fixed">
-        <Toolbar>
-          <Typography
-            variant="h4"
-            component="div"
-            sx={{ flexGrow: 1, fontStyle: "italic", fontSizeAdjust: "inherit" }}
-            color="azure"
-          >
-            Thank You! Visit Again!
+    <NavBar navBarText={"Thank You! Visit Again!"}>
+      <Card>
+        <CardHeader title="Bill" subheader={"#" + currentBill.billId} />
+        <CardContent>
+          <Typography variant="h5">Name: {currentBill.userName}</Typography>
+          <Typography variant="h6">
+            Billing Date: {getDT(currentBill.date).date}
           </Typography>
-
-          <Box>
-            {isLogggedIn ? (
-              <Button
-                onClick={() => Logout()}
-                variant="filled"
-                startIcon={<LogoutIcon />}
-                color="#000000"
-                sx={{ backgroundColor: "#ffffff" }}
-              >
-                Logout
-              </Button>
-            ) : (
-              <Button
-                onClick={() => Login()}
-                variant="filled"
-                startIcon={<LoginIcon />}
-                color="#000000"
-                sx={{ backgroundColor: "#ffffff" }}
-              >
-                Login
-              </Button>
-            )}
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Box component="main" sx={{ pt: 3, pl: 1, pr: 1, flexGrow: 1 }}>
-        <Toolbar />
-        {console.log("Bill: ", bill)}
-        <Card>
-          <CardHeader title="Bill" subheader={"#" + bill.billId} />
-          <CardContent>
-            <Typography variant="h5">Name: {bill.userName}</Typography>
-            <Typography variant="h6">
-              Billing Date: {getDT(bill.date).date}&nbsp;
-              {getDT(bill.date).time}
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              Total Amount Paid:&nbsp;<strong>&#8377;{bill.grandTotal}</strong>
-              <TaskAltIcon color="primary" />
-            </Typography>
-          </CardContent>
-        </Card>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Link href="/">
-            <Button variant="contained" color="primary">
-              Home
-            </Button>
-          </Link>
-        </Box>
+          <Typography variant="h6">
+            Billing Time: {getDT(currentBill.date).time}
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            Total Amount Paid:&nbsp;
+            <strong>&#8377;{currentBill.grandTotal}</strong>
+            <TaskAltIcon color="primary" />
+          </Typography>
+          <Typography variant="h5">Items brought</Typography>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center">
+                    <Typography variant="h6">#ID</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="h6">Flavour</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="h6">Quantity</Typography>
+                    <Typography variant="body2">(50gms per serving)</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="h6">Price</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentBill.allscoops.map((scoop) => (
+                  <TableRow
+                    key={scoop.scoopsId}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {scoop.scoopsId}
+                    </TableCell>
+                    <TableCell align="center">{scoop.scoopName}</TableCell>
+                    <TableCell align="center">
+                      {scoop.quantityOrdered}
+                    </TableCell>
+                    <TableCell align="center">&#8377;{scoop.price}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </CardContent>
+      </Card>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Link href="/">
+          <Button variant="contained" color="primary">
+            Home
+          </Button>
+        </Link>
       </Box>
-    </Box>
+    </NavBar>
   );
 };
 export default Bill;

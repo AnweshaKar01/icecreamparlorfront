@@ -37,6 +37,13 @@ public class BillService {
         Bill newBill = new Bill(cart.getUserId(), userName, cart.getGrandTotal(), LocalDateTime.now());
         // saving the bill in db
         Bill generatedBill = billRepo.save(newBill);
+        // try {
+        // log.info("sleeping main thread");
+        // Thread.sleep(500);
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // }
+        List<Scoops_Cart> th_safe_scoops_list = new CopyOnWriteArrayList<>(cart.getAllscoops());
         /**
          * !!!READ!!!
          * This function can be quite slow and inefficient some times
@@ -56,7 +63,6 @@ public class BillService {
          * it is done by using join() function
          * and at last bill object is returned
          */
-        List<Scoops_Cart> th_safe_scoops_list = new CopyOnWriteArrayList<>(cart.getAllscoops());
         class UpdateStocks extends Thread {
             public UpdateStocks() {
                 super("update-stocks");
@@ -70,8 +76,9 @@ public class BillService {
             }
         }
         Thread t1 = new UpdateStocks();
+        // t1.setPriority(4);
         t1.start();
-        th_safe_scoops_list.parallelStream().forEach(s -> {
+        th_safe_scoops_list.forEach(s -> {
             Scoops_Bill scoop_bill = new Scoops_Bill(generatedBill, s.getScoopName(),
                     s.getPrice(),
                     s.getQuantityOrdered());

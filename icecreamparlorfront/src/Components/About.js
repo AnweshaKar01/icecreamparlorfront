@@ -1,7 +1,12 @@
 import React from "react";
+import NavBar from "./Navbar";
 
 const About = () => {
-  return <div>About</div>;
+  return (
+    <NavBar navBarText={"FlavourEats"}>
+      <div>About</div>
+    </NavBar>
+  );
 };
 
 export default About;
