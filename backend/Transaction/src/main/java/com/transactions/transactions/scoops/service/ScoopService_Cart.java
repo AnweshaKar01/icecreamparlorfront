@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.transactions.transactions.Exception.DuplicateEntity;
 import com.transactions.transactions.Exception.InvalidRequest;
 import com.transactions.transactions.Exception.ResourceNotFound;
 import com.transactions.transactions.dto.ScoopsFromInventoryPOJO;
@@ -24,7 +25,13 @@ public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
 
     @Override
     public Scoops_Cart addScoop(Scoops_Cart scoop) {
-        return scoops_cartRepo.save(scoop);
+        Optional<Scoops_Cart> ifAlreadyExistingScoop = scoops_cartRepo.findIfAlreadyAdded(scoop.getCart(),
+                scoop.getScoopName());
+        if (ifAlreadyExistingScoop.isEmpty()) {
+            return scoops_cartRepo.save(scoop);
+        } else {
+            throw new DuplicateEntity("Scoop already exists in cart");
+        }
     }
 
     @Override
@@ -35,6 +42,14 @@ public class ScoopService_Cart implements ScoopHandlingInterface<Scoops_Cart> {
     @Override
     public Scoops_Cart getAllScoopsOfSingleUser(Integer id) {
         return null;
+    }
+
+    public Scoops_Cart updateScoop(Scoops_Cart scoop) {
+        if (scoop.getScoopsId() != null) {
+            return scoops_cartRepo.save(scoop);
+        } else {
+            throw new ResourceNotFound("existing icecream not found");
+        }
     }
 
     public Scoops_Cart getScoopsById(Integer scoopId) {

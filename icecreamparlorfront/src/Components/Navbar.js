@@ -19,11 +19,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
+import { useStateValue } from "../ContextApi/Context";
 function NavBar({ navBarText, children }) {
-  const loginPage = useNavigate();
+  const navigate = useNavigate();
   const [isLogggedIn, setIsLoggedIn] = useState(false);
+  const [, dispatch] = useStateValue();
   const Login = () => {
-    loginPage("/login");
+    navigate("/login");
   };
   const Logout = async () => {
     const url = `http://localhost:5000/users/logout/${localStorage.getItem(
@@ -32,7 +34,11 @@ function NavBar({ navBarText, children }) {
     const request = await axios.delete(url);
     if (request.status === 200) {
       localStorage.clear();
+      dispatch({
+        type: "clearCart",
+      });
       setIsLoggedIn(false);
+      navigate("/");
     }
   };
   const cartPage = useNavigate();

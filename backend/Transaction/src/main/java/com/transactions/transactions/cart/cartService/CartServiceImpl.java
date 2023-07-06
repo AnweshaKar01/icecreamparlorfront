@@ -52,7 +52,7 @@ public class CartServiceImpl {
 				// save in which cart the items are added
 				try {
 					return scoopService_cart.addScoop(newScoop);
-				} catch (DataIntegrityViolationException ex) {
+				} catch (Exception ex) {
 					throw new DuplicateEntity("Same icecream already exists in cart");
 				}
 
@@ -111,7 +111,7 @@ public class CartServiceImpl {
 					// saving the cart
 					cartRepo.save(cart);
 					// save in which cart the items are added
-					return scoopService_cart.addScoop(newScoop);
+					return scoopService_cart.updateScoop(newScoop);
 				} else {
 					throw new ResourceNotFound("given ice cream not found in inventory");
 				}

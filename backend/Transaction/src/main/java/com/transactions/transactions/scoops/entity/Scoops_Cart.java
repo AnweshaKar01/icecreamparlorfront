@@ -28,7 +28,6 @@ public class Scoops_Cart {
 	@JoinColumn(name = "cartid", nullable = false)
 	private Cart cart;
 	@NotBlank
-	@Column(unique = true, length = 256)
 	private String scoopName;
 
 	private Double price;

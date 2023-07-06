@@ -9,7 +9,7 @@ const Home = () => {
     const userId = localStorage.getItem("userId");
     const fetchCartItems = async () => {
       const getCartRequest = await axios.get(
-        `http://localhost:5000/cart//getCartItems/${userId}`
+        `http://localhost:5000/cart/getCartItems/${userId}`
       );
       if (getCartRequest.status === 200) {
         getCartRequest.data.allscoops.map((scoop) => {

@@ -38,7 +38,11 @@ public class CartController {
 	@PostMapping("/addCartItem")
 	public Scoops_Cart postCartItem(@RequestHeader("Authorization") Integer userId,
 			@RequestBody Scoops_CartPOJO scoop) {
-		return cartServiceImpl.saveCartItem(userId, scoop);
+		try {
+			return cartServiceImpl.saveCartItem(userId, scoop);
+		} catch (Exception ex) {
+			throw ex;
+		}
 
 	}
 
