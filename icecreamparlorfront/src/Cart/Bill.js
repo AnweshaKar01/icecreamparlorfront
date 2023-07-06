@@ -16,22 +16,30 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import NavBar from "../Components/Navbar";
 const Bill = () => {
   const [currentBill, setCurrentBill] = useState({});
   //useParams used to accept the dynamic value of the path variable
   const { billId } = useParams();
+  const navigate = useNavigate();
   useEffect(() => {
-    async function fetchBill() {
-      const billRequest = await axios.get(
-        `http://localhost:5000/bill/get/${billId}`
-      );
-      if (billRequest.status === 200) {
-        setCurrentBill(billRequest.data);
+    if (
+      localStorage.getItem("userId") === null &&
+      localStorage.getItem("cartId") === null
+    ) {
+      navigate("/login");
+    } else {
+      async function fetchBill() {
+        const billRequest = await axios.get(
+          `http://localhost:5000/bill/get/${billId}`
+        );
+        if (billRequest.status === 200) {
+          setCurrentBill(billRequest.data);
+        }
       }
+      fetchBill();
     }
-    fetchBill();
   }, []);
   const getDT = (timeStamp) => {
     const datetime = new Date(timeStamp);
