@@ -1,0 +1,15 @@
+server.port=0
+spring.profiles.active=dev
+spring.datasource.url=jdbc:mysql://localhost:3306/transactionDetails?createDatabaseIfNotExist=true
+spring.datasource.username= root
+spring.datasource.password= root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform = org.hibernate.dialect.MySQLDialect
+spring.application.name=TRANSACTION
+spring.jpa.hibernate.ddl-auto = create-drop
+spring.jpa.show-sql=true
+eureka.client.fetch-registry=true
+eureka.client.register-with-eureka=true
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.instance.instance-id:${spring.cloud.client.hostname}:${spring.application.name}:${spring.application.instance_id:${random.value}}
+logging.level.web=debug
