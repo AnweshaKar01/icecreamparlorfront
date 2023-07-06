@@ -6,19 +6,18 @@ import {
   CardContent,
   CardHeader,
   Link,
-  Typography,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
+  Typography,
 } from "@mui/material";
-import { Fragment, useEffect, useState } from "react";
-import NavBar from "../Components/Navbar";
 import axios from "axios";
+import { Fragment, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import NavBar from "../Components/Navbar";
 const Bill = () => {
   const [currentBill, setCurrentBill] = useState({});
   //useParams used to accept the dynamic value of the path variable

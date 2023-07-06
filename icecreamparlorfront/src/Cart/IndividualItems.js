@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const IndividualItems = ({
   id,
@@ -26,29 +26,27 @@ const IndividualItems = ({
   const [addscoop, setAddscoop] = useState(orderCount);
   const [updatedPrice, setUpdatedPrice] = useState(price);
 
-  useEffect(() => {
-    async function updateItem() {
-      const url = "http://localhost:5000/cart/updateCartItems";
-      const headers = {
-        "Content-Type": "application/json", // Example header
-        Authorization: localStorage.getItem("userId"), // Example header
-      };
-      const data = {
-        cartId: localStorage.getItem("cartId"),
-        scoopName: title,
-        quantityOrdered: addscoop,
-      };
-      const updateRequest = await axios.put(url, data, { headers });
-      if (updateRequest.status === 200) {
-        console.log("updated quantity");
-        onUpdate(grandTotal - updatedPrice + updateRequest.data.price);
-        setUpdatedPrice(updateRequest.data.price);
-      }
-    }
-    updateItem();
-  }, [addscoop]);
   const updateScoop = async (event) => {
     setAddscoop(event.target.value);
+    const url = "http://localhost:5000/cart/updateCartItems";
+    const headers = {
+      "Content-Type": "application/json", // Example header
+      Authorization: localStorage.getItem("userId"), // Example header
+    };
+    const data = {
+      cartId: localStorage.getItem("cartId"),
+      scoopName: title,
+      quantityOrdered: event.target.value,
+    };
+    const updateRequest = await axios.put(url, data, { headers });
+    if (updateRequest.status === 200) {
+      console.log(
+        "updated price: ",
+        grandTotal - updatedPrice + updateRequest.data.price
+      );
+      onUpdate(grandTotal - updatedPrice + updateRequest.data.price);
+      setUpdatedPrice(updateRequest.data.price);
+    }
   };
   return (
     <Card>

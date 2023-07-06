@@ -15,6 +15,8 @@ export default function reducer(state, action) {
     case "removefromCart":
       const newCart = state.cart.filter((scoopsId) => scoopsId !== action.data);
       return { ...state, cart: newCart };
+    case "clearCart":
+      return { ...state, cart: [] };
     default:
       return state;
   }
