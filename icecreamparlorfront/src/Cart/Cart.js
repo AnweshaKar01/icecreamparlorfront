@@ -8,6 +8,7 @@ import NavBar from "../Components/Navbar";
 import IndividualItems from "./IndividualItems";
 import { useStateValue } from "../ContextApi/Context";
 function Cart(props) {
+  const [disablePurchase, setDisablePurchase] = useState(false);
   const navigate = useNavigate();
   const [, dispatch] = useStateValue();
   const [cart, setCart] = useState({});
@@ -27,7 +28,7 @@ function Cart(props) {
         type: "removefromCart",
         data: deletedScoop.invItemId,
       });
-      getCartItems();
+      getCartItems(); //fetch updated cart from backend and add to the cart
     } else {
       alert("item could not be deleted from cart");
     }
@@ -62,12 +63,14 @@ function Cart(props) {
       )}`;
       const cartItemRequest = await axios.get(url);
       if (cartItemRequest.status === 200) {
-        if (cartItemRequest.data.isPurchased !== true) {
-          console.log("cart items: ", cartItemRequest.data);
-          setCart(cartItemRequest.data);
+        console.log("cart items: ", cartItemRequest.data);
+        setCart(cartItemRequest.data);
+        if (cartItemRequest.data.allscoops.length === 0) {
+          setDisablePurchase(true);
+          return;
         }
       } else {
-        alert("Cart is empty");
+        alert("Cart is not found");
       }
     } else {
       navigate("/login");
@@ -104,7 +107,11 @@ function Cart(props) {
       <Typography variant="h6">
         Grand Total: {cart.grandTotal ? cart.grandTotal : 0.0}
       </Typography>
-      <Button variant="contained" onClick={() => Bill()}>
+      <Button
+        variant="contained"
+        disabled={disablePurchase}
+        onClick={() => Bill()}
+      >
         Purchase
       </Button>
     </NavBar>

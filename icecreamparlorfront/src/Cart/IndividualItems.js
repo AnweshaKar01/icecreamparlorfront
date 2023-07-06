@@ -90,6 +90,7 @@ const IndividualItems = ({
             </Box>
           }
         />
+        {/* id=scoopsId in the cart */}
         <IconButton onClick={() => onDelete(id)}>
           <DeleteRoundedIcon fontSize="large" color="primary" />
         </IconButton>

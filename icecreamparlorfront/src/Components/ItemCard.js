@@ -10,10 +10,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../ContextApi/Context";
+//rendered each time itemcard is called in gridItem to map each item
 const ItemCard = ({ title, price, id, image, amountServed }) => {
   const [{ cart }, dispatch] = useStateValue();
   // if cart array includes the id of the current item make it disabled
+  //id: inventory id
+
   const [disabled, setDisabled] = useState(cart.includes(id));
+  //[cart,id] : whenever a new item is added to the cart
+  // the useEffect will disable the new items addTocart button
   useEffect(() => {
     console.log("Cart ids: ", cart);
     setDisabled(cart.includes(id));
@@ -26,6 +31,7 @@ const ItemCard = ({ title, price, id, image, amountServed }) => {
       console.log("Cart id: ", cartId);
       console.log("User id: ", userId);
       const url = "http://localhost:5000/cart/addCartItem";
+      //to ensure that a user can add items is his own cart only
       const headers = {
         "Content-Type": "application/json", // Example header
         Authorization: userId, // Example header
@@ -38,7 +44,7 @@ const ItemCard = ({ title, price, id, image, amountServed }) => {
       };
       const response = await axios.post(url, newItemRequest, { headers });
       if (response.status === 200) {
-        // adding item's id to cart array
+        // adding item's id to cart array and add id to the context api state
         dispatch({
           type: "add2Cart",
           data: id,

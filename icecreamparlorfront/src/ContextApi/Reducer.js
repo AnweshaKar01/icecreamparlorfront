@@ -1,7 +1,7 @@
 export default function reducer(state, action) {
   switch (action.type) {
     case "add2Cart":
-      // this is done to remove duplicate entries that may occour
+      // this is done to remove duplicate entries that may occur
       // because of re-rendering
       if (state.cart.includes(action.data) === false) {
         return {

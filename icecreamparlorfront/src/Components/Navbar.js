@@ -25,6 +25,7 @@ function NavBar({ navBarText, children }) {
   const Login = () => {
     loginPage("/login");
   };
+  //logout function
   const Logout = async () => {
     const url = `http://localhost:5000/users/logout/${localStorage.getItem(
       "userId"
@@ -39,6 +40,7 @@ function NavBar({ navBarText, children }) {
   const Cart = () => {
     cartPage("/cart");
   };
+  //check logged in or not to switch the buttons
   React.useEffect(() => {
     if (localStorage.getItem("userId") && localStorage.getItem("cartId")) {
       setIsLoggedIn(true);

@@ -22,7 +22,7 @@ public class ScoopsServiceImpl implements ScoopsService {
 	@Override
 	public Scoops saveScoops(Scoops scoops) {
 		try {
-			System.out.println("scoops: " + scoops);
+			
 			// TODO Auto-generated method stub
 			return scoopsrepo.save(scoops);
 		} catch (DataIntegrityViolationException ex) {
