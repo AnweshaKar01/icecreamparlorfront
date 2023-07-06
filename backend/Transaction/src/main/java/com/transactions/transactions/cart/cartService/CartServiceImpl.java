@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.transactions.transactions.Exception.DuplicateEntity;
@@ -31,7 +30,7 @@ public class CartServiceImpl {
 		// searching by the cart id if it already exists in the database
 		Optional<Cart> optional_cart = cartRepo.findById(scoop.cartId());
 		// if cart exists and the cart is owned by the incoming user
-		//checks if the user is adding in his own cart
+		// checks if the user is adding in his own cart
 		if (optional_cart.isPresent() && optional_cart.get().getUserId() == userId) {
 			Cart cart = optional_cart.get();
 			// getting the scoops details from ice cream parlor -> get call-> return object
