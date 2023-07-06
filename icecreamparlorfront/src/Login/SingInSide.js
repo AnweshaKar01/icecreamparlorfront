@@ -11,6 +11,7 @@ import backImage from "../Assets/Images/Login_SignUp_BackGround.jpg";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 export default function SignInSide() {
   const [data, setData] = useState({ emailId: "", password: "" });
   const navigate = useNavigate();
@@ -80,6 +81,9 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <Link href="/">
+            <Button startIcon={<ArrowBackIosIcon />}>Go Back</Button>
+          </Link>
           <Box
             component="form"
             noValidate

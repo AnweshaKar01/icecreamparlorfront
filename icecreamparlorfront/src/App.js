@@ -13,6 +13,7 @@ import Cart from "./Cart/Cart";
 import Bill from "./Cart/Bill";
 import SignInSide from "./Login/SingInSide";
 import SignUpSide from "./Login/SignUpSide";
+import AllBills from "./Cart/AllBills";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <Cart />,
+  },
+  {
+    path: "/bill",
+    element: <AllBills />,
   },
   {
     path: "/bill/:billId",

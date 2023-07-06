@@ -1,3 +1,4 @@
+import ReceiptIcon from "@mui/icons-material/Receipt";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import {
   Box,
@@ -16,7 +17,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { Fragment, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import NavBar from "../Components/Navbar";
 const Bill = () => {
   const [currentBill, setCurrentBill] = useState({});
@@ -40,6 +41,7 @@ const Bill = () => {
       }
       fetchBill();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const getDT = (timeStamp) => {
     const datetime = new Date(timeStamp);
@@ -134,8 +136,14 @@ const Bill = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              p: 1,
             }}
           >
+            <Link href="/bill" sx={{ mr: 1 }}>
+              <Button variant="secondary" startIcon={<ReceiptIcon />}>
+                All Orders
+              </Button>
+            </Link>
             <Link href="/">
               <Button variant="contained" color="primary">
                 Home

@@ -11,6 +11,7 @@ import backImage from "../Assets/Images/SignUpImage.jpg";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 export default function SignUpSide() {
   const navigate = useNavigate();
   const [newUser, setNewUser] = useState({
@@ -91,6 +92,9 @@ export default function SignUpSide() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+          <Link href="/">
+            <Button startIcon={<ArrowBackIosIcon />}>Go Back</Button>
+          </Link>
           <Box
             component="form"
             noValidate
@@ -106,7 +110,7 @@ export default function SignUpSide() {
               name="userName"
               value={newUser.userName}
               onChange={handleChange}
-              autoComplete="family-name"
+              autoComplete="name"
               autoFocus
             />
             <TextField
@@ -119,7 +123,6 @@ export default function SignUpSide() {
               value={newUser.email}
               onChange={handleChange}
               autoComplete="email"
-              autoFocus
             />
             <TextField
               margin="normal"
@@ -131,7 +134,6 @@ export default function SignUpSide() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
             />
 
             <Button
