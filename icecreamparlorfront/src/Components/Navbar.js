@@ -46,6 +46,7 @@ function NavBar({ navBarText, children }) {
   };
   const cartPage = useNavigate();
   const Cart = () => {
+    console.log("cart");
     cartPage("/cart");
   };
   //check logged in or not to switch the buttons
