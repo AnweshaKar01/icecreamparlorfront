@@ -42,7 +42,7 @@ const AllBills = () => {
     } else {
       fetchAllBills();
     }
-  });
+  }, []);
   const getDT = (timeStamp) => {
     const datetime = new Date(timeStamp);
     const year = datetime.getFullYear();
