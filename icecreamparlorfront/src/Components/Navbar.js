@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ShoppingCartCheckoutTwoToneIcon from "@mui/icons-material/ShoppingCartCheckoutTwoTone";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -20,10 +20,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
 import { useStateValue } from "../ContextApi/Context";
+import Badge from "@mui/material/Badge";
+
 function NavBar({ navBarText, children }) {
   const navigate = useNavigate();
   const [isLogggedIn, setIsLoggedIn] = useState(false);
-  const [, dispatch] = useStateValue();
+  const [{ cart }, dispatch] = useStateValue();
   const Login = () => {
     navigate("/login");
   };
@@ -72,7 +74,14 @@ function NavBar({ navBarText, children }) {
     ...theme.mixins.toolbar,
     justifyContent: "flex-end",
   }));
-
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar component="nav" position="fixed">
@@ -148,11 +157,12 @@ function NavBar({ navBarText, children }) {
             </Link>
           </Typography>
           <Box>
-            <IconButton onClick={() => Cart()}>
-              <ShoppingCartCheckoutTwoToneIcon fontSize="large" color="white" />
+            <IconButton onClick={() => Cart()} sx={{ mr: 1 }}>
+              <StyledBadge badgeContent={cart.length} color="secondary">
+                <ShoppingCartIcon fontSize="large" />
+              </StyledBadge>
             </IconButton>
           </Box>
-
           <Box>
             {isLogggedIn ? (
               <Button

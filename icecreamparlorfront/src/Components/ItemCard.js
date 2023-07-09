@@ -74,7 +74,13 @@ const ItemCard = ({ title, price, id, image, amountServed }) => {
           price: ₹{price}/- per scoop
         </Typography>
       </CardContent>
-      <CardActions>
+      <CardActions
+        sx={{
+          // display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <Button
           disabled={disabled}
           aria-label="add to cart"
