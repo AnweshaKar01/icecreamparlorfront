@@ -1,6 +1,7 @@
 FROM node:lts
 WORKDIR /app
-COPY . .
-RUN npm install
+COPY /build ./builds
+COPY /public ./public
+RUN npm install -g serve
 EXPOSE 3000
-CMD [ "npm", "start" ]
+CMD [ "serve", "-s", "build" ]
