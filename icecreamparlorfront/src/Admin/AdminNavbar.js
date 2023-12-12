@@ -23,7 +23,14 @@ import { useStateValue } from "../ContextApi/Context";
 import Badge from "@mui/material/Badge";
 import SearchItem from "./SearchItem";
 
-function AdminNavBar({ navBarText, children, items, setItems }) {
+function AdminNavBar({
+  navBarText,
+  children,
+  items,
+  setItems,
+  search,
+  setSearch,
+}) {
   const navigate = useNavigate();
   const [isLogggedIn, setIsLoggedIn] = useState(false);
 
@@ -155,7 +162,12 @@ function AdminNavBar({ navBarText, children, items, setItems }) {
             </Link>
           </Typography>
           <Box>
-            <SearchItem items={items} setItems={setItems} />
+            <SearchItem
+              items={items}
+              setItems={setItems}
+              search={search}
+              setSearch={setSearch}
+            />
           </Box>
           <Box>
             {isLogggedIn ? (
