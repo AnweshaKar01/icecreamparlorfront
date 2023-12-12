@@ -12,7 +12,7 @@ const AddItem = ({ items, setItems }) => {
     e.preventDefault();
     if (
       newItem.title === null ||
-      newItem.price === 0.0 ||
+      newItem.price <= 0.0 ||
       newItem.quantity <= 0
     ) {
       alert("Fill in all required details");
