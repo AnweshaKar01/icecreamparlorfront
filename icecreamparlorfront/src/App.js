@@ -14,6 +14,7 @@ import Bill from "./Cart/Bill";
 import SignInSide from "./Login/SingInSide";
 import SignUpSide from "./Login/SignUpSide";
 import AllBills from "./Cart/AllBills";
+import StockEntry from "./Admin/StockEntry";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/bill/:billId",
     element: <Bill />,
+  },
+  {
+    path: "/admin/stockEntry",
+    element: <StockEntry />,
   },
 ]);
 function App() {
