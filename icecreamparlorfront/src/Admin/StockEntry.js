@@ -12,8 +12,6 @@ const StockEntry = () => {
   return (
     <div>
       <AdminNavBar
-        items={items}
-        setItems={setItems}
         search={search}
         setSearch={setSearch}
         navBarText={"Inventory"}
@@ -24,7 +22,7 @@ const StockEntry = () => {
       <h2>Stock Item List</h2>
       <DisplayList
         items={items.filter((item) =>
-          item.title.toLowerCase().includes(search.toLowerCase())
+          (item.title || "").toLowerCase().includes(search.toLowerCase())
         )}
         setItems={setItems}
       />

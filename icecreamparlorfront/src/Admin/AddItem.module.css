@@ -31,7 +31,7 @@ input:hover{
     background-color: rgb(193, 241, 225);
 }
 button:hover{
-    background-color: rgba(60, 63, 83, 0.534);
+    background-color: rgba(12, 17, 44, 0.266);
 }
 button{
     min-width: 100px;
@@ -41,4 +41,5 @@ button{
     border-radius: 0.25rem;
   background-color: #0f85c9;
   color: white;
+  margin-left: 60px;
 }

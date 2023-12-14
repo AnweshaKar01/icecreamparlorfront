@@ -10,37 +10,54 @@ const AddItem = ({ items, setItems }) => {
   });
   const saveItems = (e) => {
     e.preventDefault();
-    if (
-      newItem.title === null ||
-      newItem.price <= 0.0 ||
-      newItem.quantity <= 0
-    ) {
+    if (newItem.price <= 0.0 || newItem.quantity <= 0) {
       alert("Fill in all required details");
     } else {
-      localStorage.setItem("stockList", JSON.stringify([...items, newItem]));
+      let isDuplicate = items.filter(
+        (item) =>
+          (item.title || "").toLowerCase() === newItem.title.toLowerCase()
+      );
+      console.log(isDuplicate);
+      if (isDuplicate.length > 0) {
+        alert("Item already added!!");
+      } else {
+        localStorage.setItem("stockList", JSON.stringify([...items, newItem]));
+        setItems([...items, newItem]);
+        setNewItem({
+          id: newItem.id + 1,
+          title: "",
+          price: "",
+          quantity: "",
+        });
+      }
     }
   };
   const onChange = (e) => {
     setNewItem({ ...newItem, [e.target.name]: e.target.value });
   };
-
   const addref = useRef();
   return (
     <form className={styles} onSubmit={saveItems}>
       <div>
-        <label>Add New Item : </label>
+        <label htmlFor="addItems">Add New Item : </label>
         <input
           autoFocus
           ref={addref}
+          type="text"
+          id="addTitle"
           name="title"
           value={newItem.title}
           placeholder="Add Item title"
+          required
           onChange={onChange}
         />
         <input
           autoFocus
-          name="price"
+          required
           ref={addref}
+          name="price"
+          id="addPrice"
+          type="number"
           value={newItem.price}
           placeholder="Add Item price"
           onChange={onChange}
@@ -48,7 +65,10 @@ const AddItem = ({ items, setItems }) => {
 
         <input
           autoFocus
+          required
           ref={addref}
+          id="addQuantity"
+          type="number"
           name="quantity"
           value={newItem.quantity}
           placeholder="Add Item quantity"

@@ -10,7 +10,11 @@ td,th{
 tr:hover{
     background-color: aquamarine;
 }
-
+select{
+    border-radius: 0.25rem;
+    font-size: larger;
+    margin-top: 5px;
+}
 h2{
     background-color: rgb(85, 192, 241);
     text-align: center;

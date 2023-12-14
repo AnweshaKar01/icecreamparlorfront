@@ -1,6 +1,5 @@
 import React from "react";
-
-const SearchItem = ({ items, setItems, search, setSearch }) => {
+const SearchItem = ({ search, setSearch }) => {
   // function onChange(e) {
   //   setItems((items) => {
   //     console.log(items);
