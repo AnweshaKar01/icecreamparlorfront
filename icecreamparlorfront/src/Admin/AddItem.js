@@ -1,16 +1,36 @@
 import { useRef, useState } from "react";
 import styles from "./AddItem.module.css";
+import axios from "axios";
 const AddItem = ({ items, setItems }) => {
-  const id = items.length > 0 ? items[items.length - 1].id + 1 : 1;
+  const scoopsId = items.length > 0 ? items[items.length - 1].scoopsId + 1 : 1;
   const [newItem, setNewItem] = useState({
-    id: id,
+    scoopsId: scoopsId,
     title: "",
     price: "",
-    quantity: "",
+    amount: "",
   });
+  const addItems = async (newItem) => {
+    try {
+      const addingItem = await axios.post(
+        "http://localhost:5000/inventory/addScoops",
+        newItem
+      );
+      const NewList = [...items, addingItem.data];
+      setItems(NewList);
+      setNewItem({
+        scoopsId: newItem.scoopsId + 1,
+        title: "",
+        price: "",
+        amount: "",
+      });
+    } catch (err) {
+      console.log(`Error ${err.message}`);
+    }
+  };
   const saveItems = (e) => {
     e.preventDefault();
-    if (newItem.price <= 0.0 || newItem.quantity <= 0) {
+
+    if (newItem.price <= 0.0 || newItem.amount <= 0) {
       alert("Fill in all required details");
     } else {
       let isDuplicate = items.filter(
@@ -21,14 +41,7 @@ const AddItem = ({ items, setItems }) => {
       if (isDuplicate.length > 0) {
         alert("Item already added!!");
       } else {
-        localStorage.setItem("stockList", JSON.stringify([...items, newItem]));
-        setItems([...items, newItem]);
-        setNewItem({
-          id: newItem.id + 1,
-          title: "",
-          price: "",
-          quantity: "",
-        });
+        addItems(newItem);
       }
     }
   };
@@ -67,10 +80,10 @@ const AddItem = ({ items, setItems }) => {
           autoFocus
           required
           ref={addref}
-          id="addQuantity"
+          id="addAmount"
           type="number"
-          name="quantity"
-          value={newItem.quantity}
+          name="amount"
+          value={newItem.amount}
           placeholder="Add Item quantity"
           onChange={onChange}
         />

@@ -4,7 +4,7 @@ import deleteStyle from "./Modal.module.css";
 import UpdateItem from "./UpdateItem";
 const DisplayList = ({ items, setItems }) => {
   const onDelete = (id) => {
-    const newListItem = items.filter((item) => item.id !== id);
+    const newListItem = items.filter((item) => item.scoopsId !== id);
     setItems(newListItem);
     localStorage.setItem("stockList", JSON.stringify(newListItem));
   };
@@ -13,8 +13,8 @@ const DisplayList = ({ items, setItems }) => {
   useEffect(() => {
     const sortArray = (type) => {
       const types = {
-        title: "title",
         id: "id",
+        title: "title",
       };
       const sortItems = types[type];
 
@@ -37,9 +37,9 @@ const DisplayList = ({ items, setItems }) => {
           <th>Price</th>
           <th>Quantity</th>
           <th>
-            <select onChange={(e) => setSortType(e.target.value)}>
-              <option value="title">1.Sort Title </option>
-              <option value="id">2.Sort id</option>
+            <select name="Sort" onChange={(e) => setSortType(e.target.value)}>
+              <option value="id">1.Sort id </option>
+              <option value="title">2.Sort Title</option>
             </select>
           </th>
         </tr>
@@ -47,16 +47,16 @@ const DisplayList = ({ items, setItems }) => {
       <tbody>
         {items.length > 0 ? (
           items.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
+            <tr key={item.scoopsId}>
+              <td>{item.scoopsId}</td>
               <td>{item.title}</td>
               <td>{item.price}</td>
-              <td>{item.quantity}</td>
+              <td>{item.amount}</td>
               <td>
                 <button
                   className={deleteStyle}
                   onClick={() => {
-                    onDelete(item.id);
+                    onDelete(item.scoopsId);
                   }}
                 >
                   Delete
@@ -64,12 +64,12 @@ const DisplayList = ({ items, setItems }) => {
                 <button
                   className={deleteStyle}
                   onClick={() => {
-                    setIsOpen({ ...isOpen, [item.id]: true });
+                    setIsOpen({ ...isOpen, [item.scoopsId]: true });
                   }}
                 >
                   Edit
                 </button>
-                {isOpen[item.id] && (
+                {isOpen[item.scoopsId] && (
                   <UpdateItem
                     isOpen={isOpen}
                     setIsOpen={setIsOpen}
