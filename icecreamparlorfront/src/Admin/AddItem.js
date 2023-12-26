@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "./AddItem.module.css";
 import axios from "axios";
-const AddItem = ({ items, setItems }) => {
+const AddItem = ({ items, setItems, setStockUpdate }) => {
   const scoopsId = items.length > 0 ? items[items.length - 1].scoopsId + 1 : 1;
   const [newItem, setNewItem] = useState({
     scoopsId: scoopsId,
@@ -23,6 +23,7 @@ const AddItem = ({ items, setItems }) => {
         price: "",
         amount: "",
       });
+      setStockUpdate(true);
     } catch (err) {
       console.log(`Error ${err.message}`);
     }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import tablestyle from "./StockEntry.module.css";
 import deleteStyle from "./Modal.module.css";
 import UpdateItem from "./UpdateItem";
-const DisplayList = ({ items, setItems }) => {
+const DisplayList = ({ items, setItems, updateStock, setUpdateStock }) => {
   const onDelete = (id) => {
     const newListItem = items.filter((item) => item.scoopsId !== id);
     setItems(newListItem);
